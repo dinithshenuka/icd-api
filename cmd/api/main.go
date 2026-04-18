@@ -6,12 +6,12 @@ import (
 )
 
 func main() {
-	// 1. Initialize logic layers
-	repo := icdcodes.NewRepository()
+	// 1. Initialize logic layers with the real database
+	repo := icdcodes.NewRepository("database/icd11.db")
 	service := icdcodes.NewService(repo)
 	handler := icdcodes.NewHandler(service)
 
-	// 2. Setup the router from our internal api package
+	// 2. Setup the router
 	r := api.NewRouter(handler)
 
 	// 3. Start the engine

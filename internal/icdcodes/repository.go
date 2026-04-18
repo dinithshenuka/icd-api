@@ -1,33 +1,57 @@
 package icdcodes
 
-// Repository handles data storage logic
+import (
+	"database/sql"
+	"log"
+
+	_ "modernc.org/sqlite"
+)
+
+// Repository handles database logic for ICD codes
 type Repository struct {
-	// We could put a database connection here later
+	db *sql.DB
 }
 
-// NewRepository creates a new instance of the repository
-func NewRepository() *Repository {
-	return &Repository{}
-}
-
-// GetAll returns a hardcoded list of ICD codes
-func (r *Repository) GetAll() []ICDCode {
-	return []ICDCode{
-		{ID: "1", Code: "A00", Description: "Cholera", Version: "ICD-10"},
-		{ID: "2", Code: "B00", Description: "Herpesviral infections", Version: "ICD-10"},
+// NewRepository opens the SQLite database and returns a repository
+func NewRepository(dbPath string) *Repository {
+	db, err := sql.Open("sqlite", dbPath)
+	if err != nil {
+		log.Fatalf("Failed to open database: %v", err)
 	}
+	return &Repository{db: db}
 }
 
-// Search filters codes by description or code
-func (r *Repository) Search(query string) []ICDCode {
-	all := r.GetAll()
-	var results []ICDCode
+// GetAll returns a limited set of codes (for sanity)
+func (r *Repository) GetAll() []ICDCode {
+	rows, err := r.db.Query("SELECT code, description, version FROM icd_codes LIMIT 100")
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
 
-	// Basic filter logic (case-insensitive search would be better, but we'll start here)
-	for _, item := range all {
-		if query == "" || item.Code == query || item.Description == query {
-			results = append(results, item)
-		}
+	var codes []ICDCode
+	for rows.Next() {
+		var c ICDCode
+		rows.Scan(&c.Code, &c.Description, &c.Version)
+		codes = append(codes, c)
+	}
+	return codes
+}
+
+// Search filters codes using a SQL LIKE query for high-performance lookup
+func (r *Repository) Search(query string) []ICDCode {
+	searchTerm := "%" + query + "%"
+	rows, err := r.db.Query("SELECT code, description, version FROM icd_codes WHERE code LIKE ? OR description LIKE ? LIMIT 50", searchTerm, searchTerm)
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
+
+	var results []ICDCode
+	for rows.Next() {
+		var c ICDCode
+		rows.Scan(&c.Code, &c.Description, &c.Version)
+		results = append(results, c)
 	}
 	return results
 }
