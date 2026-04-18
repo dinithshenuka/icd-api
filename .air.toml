@@ -1,0 +1,32 @@
+# Config file for [Air](https://github.com/air-verse/air)
+
+# Root directory
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  # Just like 'go build', this is what air runs to compile your app
+  cmd = "go build -o ./tmp/main ./cmd/api"
+  # This is the binary file air will run after a successful build
+  bin = "./tmp/main"
+  # Customize binary execution (e.g., adding environment variables)
+  full_bin = "APP_ENV=dev ./tmp/main"
+  # Watch these directories
+  include_dir = ["cmd", "internal", "api"]
+  # Watch these file extensions
+  include_ext = ["go", "yaml", "yml", "toml"]
+  # Exclude these directories
+  exclude_dir = ["assets", "tmp", "vendor", "docs"]
+  # Stop on the first build error
+  stop_on_error = true
+  # Log details
+  log = "air.log"
+
+[log]
+  time = true
+
+[color]
+  main = "magenta"
+  watcher = "cyan"
+  build = "yellow"
+  runner = "green"
