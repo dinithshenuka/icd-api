@@ -13,9 +13,11 @@ Follow these instructions to set up the ICD Codes API in your local environment.
    git clone https://github.com/iammrdp/icd-api.git
    cd icd-api
    ```
-2. Install dependencies:
+
+2. Initialize the Database and Import Data:
    ```bash
-   go mod download
+   make migrate-up
+   make import
    ```
 
 ## Development
@@ -29,7 +31,7 @@ make dev
 The server will be available at `http://localhost:8080`.
 
 ### Generate Code
-To regenerate Go code from the OpenAPI specification after making changes to `api/v1/openapi.yaml`:
+To regenerate Go code from the OpenAPI specification after making changes to `openapi/openapi.yaml`:
 ```bash
 make generate
 ```
@@ -47,9 +49,9 @@ make build
 ```
 
 ## Testing the Endpoints
-You can verify the installation by retrieving a sample of ICD-10 codes:
+You can verify the installation by searching for a code:
 ```bash
-curl http://localhost:8080/v1/icd10
+curl "http://localhost:8080/v1/search?q=heart"
 ```
 
 Interactive documentation is available at `http://localhost:8080/docs`.

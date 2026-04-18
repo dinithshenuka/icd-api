@@ -6,6 +6,7 @@ A simple, fast, and opinionated API for working with ICD-11 diagnostic codes, bu
 
 Instead of dealing with complex hierarchies, authentication flows, and raw classification data — you get clean, searchable, production-ready responses.
 
+
 ### Why this exists
 
 The official World Health Organization ICD-11 system is powerful, but not designed for real-time application use. 
@@ -23,7 +24,7 @@ Building medical software (especially EMRs) introduces common problems:
 
 ### What makes this different
 
-#### ⚡ Fast fuzzy search
+#### Fast fuzzy search
 Search ICD codes using natural language, typos, or partial terms.
 
 * "high sugar" → Type 2 diabetes
@@ -53,20 +54,10 @@ Designed for:
 * Just HTTP requests and results
 
 
-### Quick start
+### Getting Started
 
-#### 1. Install & run locally
-```bash
-git clone https://github.com/iammrdp/icd-api
-cd icd-api
-make dev
-```
+For local setup, database initialization, and development workflows, see the **[Getting Started Guide](docs/GETTING_STARTED.md)**.
 
-#### 2. Import Data
-```bash
-make migrate-up
-make import
-```
 
 ### Example request
 `GET /v1/search?q=heart+attack`
@@ -82,12 +73,22 @@ make import
 ]
 ```
 
+
+### Official WHO Resources
+
+For developers who require official raw datasets or programmatic access directly from the World Health Organization:
+
+* **Official ICD-11 Portal**: [https://icd.who.int/en](https://icd.who.int/en)
+* **Official ICD-11 API**: [https://icd.who.int/icdapi](https://icd.who.int/icdapi)
+* **Dataset Downloads**: [https://icd.who.int/browse/latest-release/mms/en#/downloaddata](https://icd.who.int/browse/latest-release/mms/en#/downloaddata) *(Requires WHO Registration)*
+
+
 ### Use cases
-* **Electronic Medical Records (EMR systems)**
-* **Hospital management software**
-* **Clinical decision support tools**
-* **Health tech startups**
-* **Medical research platforms**
+* Electronic Medical Records (EMR systems)
+* Hospital management software
+* Clinical decision support tools
+* Health tech startups
+* Medical research platforms
 
 
 ### Design philosophy
@@ -108,11 +109,8 @@ So instead of exposing raw classification complexity, we:
 
 
 ### Contributing
-We welcome contributions that improve:
-* Search quality
-* Clinical synonym coverage
-* Performance and caching
-* Dataset enrichment
+
+Interested in contributing? Please see our **[Contribution Guidelines](docs/CONTRIBUTING.md)**.
 
 
 ### License
