@@ -1,24 +1,19 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/iammrdp/icd-api/internal/api"
 	"github.com/iammrdp/icd-api/internal/icdcodes"
 )
 
 func main() {
-	// Initialize layers
+	// 1. Initialize logic layers
 	repo := icdcodes.NewRepository()
 	service := icdcodes.NewService(repo)
 	handler := icdcodes.NewHandler(service)
 
-	r := gin.Default()
+	// 2. Setup the router from our internal api package
+	r := api.NewRouter(handler)
 
-	// API Versioning using Groups
-	v1 := r.Group("/v1")
-	{
-		v1.GET("/icd10", handler.GetICD10)
-		v1.GET("/search", handler.Search)
-	}
-
+	// 3. Start the engine
 	r.Run(":8080")
 }
