@@ -17,8 +17,15 @@ func NewHandler(service *Service) *Handler {
 	}
 }
 
-// GetICD10 returns all ICD-10 codes
+// GetICD10 returns all ICD-10 codes formatted as DTOs
 func (h *Handler) GetICD10(c *gin.Context) {
 	codes := h.service.GetCodes()
-	c.JSON(http.StatusOK, codes)
+	c.JSON(http.StatusOK, MapToResponses(codes))
+}
+
+// Search handles the search request and returns DTO results
+func (h *Handler) Search(c *gin.Context) {
+	query := c.Query("q")
+	results := h.service.SearchCodes(query)
+	c.JSON(http.StatusOK, MapToResponses(results))
 }

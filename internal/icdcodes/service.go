@@ -14,6 +14,10 @@ func NewService(repo *Repository) *Service {
 
 // GetCodes returns the list of codes from the repository
 func (s *Service) GetCodes() []ICDCode {
-	// You could add logic here: logging, filtering, etc.
 	return s.repo.GetAll()
+}
+
+// SearchCodes calls the repository search logic
+func (s *Service) SearchCodes(query string) []ICDCode {
+	return s.repo.Search(query)
 }

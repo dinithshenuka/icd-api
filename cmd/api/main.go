@@ -6,17 +6,19 @@ import (
 )
 
 func main() {
-	// 1. Initialize layers
+	// Initialize layers
 	repo := icdcodes.NewRepository()
 	service := icdcodes.NewService(repo)
 	handler := icdcodes.NewHandler(service)
 
-	// 2. Set up router
 	r := gin.Default()
 
-	// 3. Define routes
-	r.GET("/icd10", handler.GetICD10)
+	// API Versioning using Groups
+	v1 := r.Group("/v1")
+	{
+		v1.GET("/icd10", handler.GetICD10)
+		v1.GET("/search", handler.Search)
+	}
 
-	// 4. Start server
 	r.Run(":8080")
 }
