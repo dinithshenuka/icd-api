@@ -12,7 +12,7 @@ The ICD Codes API provides a centralized, high-performance interface for searchi
 - **Scalable Architecture**: Built to handle the massive dataset of International Classification of Diseases.
 
 ## Documentation
-- [Getting Started](docs/GETTING_STARTED.md)
+- [Getting Started](docs/GETTING_STARTED.md) (Use `make dev` for local development)
 - [Contributing](docs/CONTRIBUTING.md)
 
 ## License

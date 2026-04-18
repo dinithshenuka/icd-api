@@ -5,6 +5,7 @@ Follow these instructions to set up the ICD Codes API in your local environment.
 ## Prerequisites
 - Go 1.22 or higher
 - Git
+- Make
 
 ## Installation
 1. Clone the repository:
@@ -17,16 +18,38 @@ Follow these instructions to set up the ICD Codes API in your local environment.
    go mod download
    ```
 
-## Running the API
-To start the service, execute the following command from the root directory:
+## Development
+This project uses a `Makefile` to simplify common tasks.
+
+### Start the Development Server
+To start the server with live-reloading (Air):
 ```bash
-go run cmd/api/main.go
+make dev
+```
+The server will be available at `http://localhost:8080`.
+
+### Generate Code
+To regenerate Go code from the OpenAPI specification after making changes to `api/v1/openapi.yaml`:
+```bash
+make generate
 ```
 
-The server will be available at `http://localhost:8080`.
+### Running Tests
+To run the project's test suite:
+```bash
+make test
+```
+
+### Build for Production
+To create a production binary:
+```bash
+make build
+```
 
 ## Testing the Endpoints
 You can verify the installation by retrieving a sample of ICD-10 codes:
 ```bash
-curl http://localhost:8080/icd10
+curl http://localhost:8080/v1/icd10
 ```
+
+Interactive documentation is available at `http://localhost:8080/docs`.
