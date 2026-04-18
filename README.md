@@ -1,19 +1,124 @@
-# ICD Codes API
+# ICD Code API
 
-## The Problem
-Integrating medical diagnosis codes into healthcare software is notoriously difficult. Developers face fragmented data sources across ICD-10 and ICD-11 versions, complex hierarchical structures, and the need for high-performance lookup in clinical environments where every second counts.
+**Fast, developer-friendly ICD-11 search API for real-world applications.**
 
-## The Solution
-The ICD Codes API provides a centralized, high-performance interface for searching and retrieving standardized medical classifications. By abstracts away the complexity of medical data structures, it allows healthcare developers to focus on building features for clinicians rather than managing data tables.
+A simple, fast, and opinionated API for working with ICD-11 diagnostic codes, built to eliminate the friction of using the official WHO interface directly in applications.
 
-## Key Benefits
-- **Clinical Efficiency**: Single source of truth for all diagnosis classifications.
-- **Developer Experience**: Simple, standardized JSON interface for any healthcare application.
-- **Scalable Architecture**: Built to handle the massive dataset of International Classification of Diseases.
+Instead of dealing with complex hierarchies, authentication flows, and raw classification data — you get clean, searchable, production-ready responses.
 
-## Documentation
-- [Getting Started](docs/GETTING_STARTED.md) (Use `make dev` for local development)
-- [Contributing](docs/CONTRIBUTING.md)
+### Why this exists
 
-## License
-This project is licensed under the MIT License.
+The official World Health Organization ICD-11 system is powerful, but not designed for real-time application use. 
+
+Building medical software (especially EMRs) introduces common problems:
+
+* **Slow or complex search experience**
+* **Hard-to-use hierarchical data**
+* **Lack of synonym handling** (“heart attack” vs “myocardial infarction”)
+* **Heavy integration overhead** (OAuth, API complexity)
+* **Poor UX for autocomplete and clinical workflows**
+
+**ICD Code API** solves this by focusing on developer experience first.
+
+
+### What makes this different
+
+#### ⚡ Fast fuzzy search
+Search ICD codes using natural language, typos, or partial terms.
+
+* "high sugar" → Type 2 diabetes
+* "heart attack" → Acute myocardial infarction
+* "bp high" → Essential hypertension
+
+#### Simple JSON response
+No complex ontology structures in your frontend.
+
+```json
+{
+  "code": "5A11",
+  "description": "Type 2 diabetes mellitus",
+  "version": "ICD-11"
+}
+```
+
+#### Built for autocomplete UX
+Designed for:
+* EMR diagnosis selection
+* Search-as-you-type interfaces
+* Clinical decision support tools
+
+#### No authentication complexity
+* No OAuth setup
+* No token refresh flows
+* Just HTTP requests and results
+
+
+### Quick start
+
+#### 1. Install & run locally
+```bash
+git clone https://github.com/iammrdp/icd-api
+cd icd-api
+make dev
+```
+
+#### 2. Import Data
+```bash
+make migrate-up
+make import
+```
+
+### Example request
+`GET /v1/search?q=heart+attack`
+
+### Example response
+```json
+[
+  {
+    "code": "BA41",
+    "description": "Acute myocardial infarction",
+    "version": "ICD-11"
+  }
+]
+```
+
+### Use cases
+* **Electronic Medical Records (EMR systems)**
+* **Hospital management software**
+* **Clinical decision support tools**
+* **Health tech startups**
+* **Medical research platforms**
+
+
+### Design philosophy
+This project is built on a simple idea: **ICD data should be usable, not just accessible.**
+
+So instead of exposing raw classification complexity, we:
+* **Flatten** what should be simple
+* **Enhance** what should be intuitive
+* **Optimize** for real-world workflows, not theoretical correctness
+
+
+### Roadmap
+* [x] Offline dataset support (SQLite)
+* [ ] Usage-based ranking improvements
+* [ ] Multi-language medical term support
+* [ ] Embedding-based semantic search
+* [ ] EMR-ready SDKs (Go / Node / Python)
+
+
+### Contributing
+We welcome contributions that improve:
+* Search quality
+* Clinical synonym coverage
+* Performance and caching
+* Dataset enrichment
+
+
+### License
+Open-source. Built for the healthcare developer community.
+
+### Why this matters
+Healthcare software is often slowed down by tooling that wasn’t designed for real clinicians.
+
+This project aims to make ICD classification: **fast, intuitive, and invisible inside the workflow.**
