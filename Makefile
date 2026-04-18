@@ -3,6 +3,9 @@
 # Configuration
 MIGRATIONS_DIR=./database/migrations
 DB_PATH=./database/icd11.db
+SERVER_MAIN=./cmd/server/main.go
+OPENAPI_SPEC=./openapi/openapi.yaml
+GEN_DIR=./internal/api/handler
 
 # Default target
 all: help
@@ -10,7 +13,7 @@ all: help
 ## build: Compile the binary for production
 build:
 	@echo "Building production binary..."
-	go build -o ./bin/api ./cmd/api
+	go build -o ./bin/api $(SERVER_MAIN)
 
 ## dev: Start the development server with hot-reloading (air)
 dev:
@@ -19,8 +22,8 @@ dev:
 
 ## generate: Regenerate Go code from OpenAPI specification
 generate:
-	@echo "Generating API code from openapi.yaml..."
-	go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest -package icdcodes -generate types,gin api/v1/openapi.yaml > internal/icdcodes/api.gen.go
+	@echo "Generating API code from $(OPENAPI_SPEC)..."
+	go run github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest -package handler -generate types,gin $(OPENAPI_SPEC) > $(GEN_DIR)/api.gen.go
 
 ## test: Run all tests
 test:
@@ -36,11 +39,6 @@ migrate-up:
 migrate-down:
 	@echo "Rolling back last migration..."
 	go run cmd/migrate/main.go -action down -path $(MIGRATIONS_DIR) -db $(DB_PATH)
-
-## migrate-create: Create a new migration file (usage: make migrate-create name=my_migration)
-migrate-create:
-	@echo "Creating new migration..."
-	/opt/homebrew/bin/migrate create -ext sql -dir $(MIGRATIONS_DIR) -seq $(name)
 
 ## import: Import data from Excel to SQLite
 import:
