@@ -1,4 +1,8 @@
-.PHONY: all build dev generate test clean help
+.PHONY: all build dev generate test clean help migrate-up migrate-down migrate-create import
+
+# Configuration
+MIGRATIONS_DIR=./database/migrations
+DB_PATH=./database/icd11.db
 
 # Default target
 all: help
@@ -22,6 +26,26 @@ generate:
 test:
 	@echo "Running tests..."
 	go test -v ./...
+
+## migrate-up: Run all database migrations
+migrate-up:
+	@echo "Running migrations up..."
+	go run cmd/migrate/main.go -action up -path $(MIGRATIONS_DIR) -db $(DB_PATH)
+
+## migrate-down: Rollback the last migration
+migrate-down:
+	@echo "Rolling back last migration..."
+	go run cmd/migrate/main.go -action down -path $(MIGRATIONS_DIR) -db $(DB_PATH)
+
+## migrate-create: Create a new migration file (usage: make migrate-create name=my_migration)
+migrate-create:
+	@echo "Creating new migration..."
+	/opt/homebrew/bin/migrate create -ext sql -dir $(MIGRATIONS_DIR) -seq $(name)
+
+## import: Import data from Excel to SQLite
+import:
+	@echo "Importing data..."
+	go run cmd/importer/main.go
 
 ## clean: Remove build artifacts and temporary files
 clean:
