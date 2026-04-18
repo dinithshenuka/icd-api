@@ -5,9 +5,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/iammrdp/icd-api/internal/api"
-	"github.com/iammrdp/icd-api/internal/api/handler"
-	"github.com/iammrdp/icd-api/internal/domain/icd11"
+	"github.com/dinithshenuka/icd-code-api/internal/api"
+	"github.com/dinithshenuka/icd-code-api/internal/api/handler"
+	"github.com/dinithshenuka/icd-code-api/internal/domain/icd11"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog"
 )

@@ -10,7 +10,7 @@ Follow these instructions to set up the ICD Codes API in your local environment.
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/iammrdp/icd-api.git
+   git clone https://github.com/dinithshenuka/icd-code-api.git
    cd icd-api
    ```
 

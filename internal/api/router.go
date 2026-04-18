@@ -3,8 +3,8 @@ package api
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/iammrdp/icd-api/internal/api/handler"
-	"github.com/iammrdp/icd-api/internal/api/middleware"
+	"github.com/dinithshenuka/icd-code-api/internal/api/handler"
+	"github.com/dinithshenuka/icd-code-api/internal/api/middleware"
 )
 
 // NewRouter sets up the entire API routing

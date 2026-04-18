@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/iammrdp/icd-api/internal/domain/icd11"
+	"github.com/dinithshenuka/icd-code-api/internal/domain/icd11"
 )
 
 type ICD11Handler struct {
