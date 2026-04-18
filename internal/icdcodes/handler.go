@@ -5,27 +5,48 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Handler handles HTTP requests
+// Handler handles HTTP requests and implements ServerInterface
 type Handler struct {
 	service *Service
 }
 
-// NewHandler creates a new handler instance
 func NewHandler(service *Service) *Handler {
 	return &Handler{
 		service: service,
 	}
 }
 
-// GetICD10 returns all ICD-10 codes formatted as DTOs
-func (h *Handler) GetICD10(c *gin.Context) {
+// GetIcd10 implements the generated GetIcd10 interface
+func (h *Handler) GetIcd10(c *gin.Context) {
 	codes := h.service.GetCodes()
-	c.JSON(http.StatusOK, MapToResponses(codes))
+	
+	var response []ICDCodeResponse
+	for _, code := range codes {
+		response = append(response, ICDCodeResponse{
+			Code:        code.Code,
+			Description: code.Description,
+		})
+	}
+	
+	c.JSON(http.StatusOK, response)
 }
 
-// Search handles the search request and returns DTO results
-func (h *Handler) Search(c *gin.Context) {
-	query := c.Query("q")
+// SearchCodes implements the generated SearchCodes interface
+func (h *Handler) SearchCodes(c *gin.Context, params SearchCodesParams) {
+	query := ""
+	if params.Q != nil {
+		query = *params.Q
+	}
+
 	results := h.service.SearchCodes(query)
-	c.JSON(http.StatusOK, MapToResponses(results))
+	
+	var response []ICDCodeResponse
+	for _, res := range results {
+		response = append(response, ICDCodeResponse{
+			Code:        res.Code,
+			Description: res.Description,
+		})
+	}
+	
+	c.JSON(http.StatusOK, response)
 }
