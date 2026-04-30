@@ -21,6 +21,11 @@ func NewRepository(dbPath string) *Repository {
 	return &Repository{db: db}
 }
 
+// NewRepositoryWithDB creates a Repository from an existing *sql.DB (useful for testing)
+func NewRepositoryWithDB(db *sql.DB) *Repository {
+	return &Repository{db: db}
+}
+
 // GetAll returns a limited set of codes
 func (r *Repository) GetAll() []ICDCode {
 	rows, err := r.db.Query("SELECT code, description, version FROM icd_codes LIMIT 100")
